@@ -1,0 +1,2 @@
+# VerilogLog
+Curricula allied scripts
