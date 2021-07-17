@@ -1,0 +1,34 @@
+module Decoder_2_4(
+	input [1:0]I,
+	output reg [3:0]D
+    );
+
+always@*
+begin
+	D[0]<=~I[1]&~I[0];
+	D[1]<=~I[1]&I[0];
+	D[2]<=I[1]&~I[0];
+	D[3]<=I[1]&I[0];
+end
+
+endmodule
+
+//Test Bench
+module TestBench();
+reg [1:0]Inp;
+wire [3:0]D_out;
+integer i;
+
+Decoder_2_4 dec (Inp,D_out);
+
+initial 
+begin
+	for(i=0;i<=3;i=i+1)
+		if(i==0) 
+			Inp=0;
+		else
+			#10 Inp=Inp+1;
+	#10 $finish;
+end
+
+endmodule
