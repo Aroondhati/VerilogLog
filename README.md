@@ -14,4 +14,9 @@ Adders>
 8. 8-bit Kogge Stone Prefix Adder
 9. 8-bit Ladner-Fischer Prefix Adder
 10. 8-bit Brent Kung Prefix Adder
-11. Generalized Test Bench
+11. BCD Adder
+12. Adder-Subtractor
+13. Generalized Test Bench
+
+Multipliers:
+
