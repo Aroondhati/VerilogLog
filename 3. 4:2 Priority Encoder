@@ -1,0 +1,42 @@
+module PriorityEncoder(
+	input [3:0] D,
+	output reg [1:0] Out,
+	output reg Valid
+    );
+
+always@*
+begin
+Valid<=D[0]|D[1]|D[2]|D[3];
+if(Valid==0)
+	Out=2'bX;
+else
+	begin
+	Out[1]<=D[1]|D[0];
+	Out[0]<=(~D[1]|D[0])&(~D[3]|D[2]|D[0]);
+	end
+end
+
+endmodule
+
+//Test Bench
+module TestBench();
+reg [3:0] D;
+wire [1:0] Out;
+wire Valid;
+
+integer i;
+
+PriorityEncoder PE(D,Out,Valid);
+
+initial
+begin
+	for(i=0;i<=15;i=i+1)
+	begin
+		if(i==0)
+			D=0;
+		else
+			#10 D=D+1;
+	end
+	#10 $finish;
+end
+endmodule
