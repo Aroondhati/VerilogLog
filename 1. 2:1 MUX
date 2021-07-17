@@ -20,26 +20,34 @@ endmodule
 //Test Bench Module
 module TestBench();
 reg I0,I1,S;
-wire Op;
-integer i,num_correct,num_wrong;
+wire O;
+integer i,num_correct,num_wrong,write_data;
 reg check;
 
-Mux mu (I0,I1,S,O);
+parameter delay=10;
+
+Mux mu (.I0(I0),.I1(I1),.S(S),.Out(O));
 
 initial
 begin
+	write_data = $fopen("write_file.txt");
 	num_correct=0;
 	num_wrong=0;
 	for(i=0;  i<=10; i=i+1)
-		begin
-		I0=$unsigned($random)%2;
-		I1=$unsigned($random)%2;
-		S=$unsigned($random)%2;
-		check=S?I1:I0;
-		#10 if(check==Op)
-			num_correct=num_correct+1;
-		else
-			num_wrong=num_wrong+1;
-		end
+	begin
+	I0=$unsigned($random)%2;
+	I1=$unsigned($random)%2;
+	S=$unsigned($random)%2;
+	check=S?I1:I0;
+	#delay if(check==O)
+	num_correct=num_correct+1;
+	else
+	num_wrong=num_wrong+1;
+	
+	$fdisplay(write_data, "%b  %b  %b  %d  %d", I0, I1, S,num_correct,num_wrong);
+	end
+	$fclose(write_data);
 end
+
+
 endmodule
