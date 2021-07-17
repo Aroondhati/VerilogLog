@@ -3,16 +3,16 @@ module Mux(
 	input I0,
 	input I1,
 	input S,
-	output reg O
+	output reg Out
     );
 	 
 // Behavorial Modelling
 always @(I0,I1,S)
 begin 
 	if(S==0)
-	O=I0;
+	Out=I0;
 	else 
-	O=I1;
+	Out=I1;
 end
 
 endmodule
