@@ -3,8 +3,9 @@ Curricula allied scripts
 
 1. 2:1 MUX 
 2. 2:4 Decoder
-3. Sequence Detector FSM (Mealey)
-4. Sequence Detector FSM (Moore)
+3. 4:2 Priority Encoder
+4. Sequence Detector FSM (Mealey)
+5. Sequence Detector FSM (Moore)
 
 Adders>>
 1. 0000 Half Adder
