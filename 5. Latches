@@ -1,0 +1,58 @@
+module Latches(
+	input enable,D,
+	input inp,S,R,
+	output reg Q_SR,Q_SdashRdash,Q_D
+    );
+
+	always@(S,R)
+	begin
+		case({S,R})
+		2'b00: begin Q_SR<=Q_SR; Q_SdashRdash<=2'bZ; end
+		2'b01: begin Q_SR<=0; Q_SdashRdash<=1; end
+		2'b10: begin Q_SR<=1; Q_SdashRdash<=0; end
+		2'b11: begin Q_SR<=2'bZ; Q_SdashRdash<=Q_SdashRdash; end
+		endcase
+	end
+	
+always@(enable,D)
+	begin
+	Q_D<=(enable)?D:Q_D;
+	end
+endmodule
+
+module TestBench_Latches();
+	reg enable,D;
+	reg inp,S,R;
+	wire Q_SR,Q_SdashRdash,Q_D;
+
+Latches L1(enable,D,inp,S,R,Q_SR,Q_SdashRdash,Q_D);
+
+	initial 
+	begin
+		enable=0;
+		repeat(20)
+		#10 enable=~enable;
+	end
+	
+	initial 
+	begin
+		D=0;
+		repeat(20)
+		#15 D=~D;
+	end
+	
+	initial 
+	begin
+		inp=0;
+		repeat(20)
+		#15 inp=~inp;
+	end
+			
+	initial 
+	begin
+		{S,R}=0;
+		repeat(20)
+		#15 {S,R}={S,R}+1;
+		#10 $finish;
+	end
+endmodule
