@@ -1,0 +1,65 @@
+//Synchronous FF
+module FFs(
+	input clock,
+	input reset,
+	input inp,
+	input T,J,K,
+	output reg Q_D,Q_T,Q_JK
+    );
+
+always@(posedge clock)
+	begin
+	if(reset==0)
+		begin Q_D<=0; Q_T<=0; Q_JK<=0; end
+	else
+		begin Q_D<=inp; Q_T<=Q_T^T; Q_JK<=(J&(~Q_JK))|((~K)&Q_JK); end
+	end
+endmodule
+
+module TestBench_FFs();
+	reg clock;
+	reg reset;
+	reg inp;
+	reg T,J,K;
+	wire Q_D,Q_T,Q_JK;
+
+FFs ff1(clock,reset,inp,T,J,K,Q_D,Q_T,Q_JK);
+
+	initial 
+	begin
+		clock=0;
+		repeat(20)
+		#10 clock=~clock;
+	end
+	
+	initial 
+	begin
+		reset=0;
+		repeat(10)
+		#20 reset=1;
+	end
+	
+	initial 
+	begin
+		inp=0;
+		repeat(20)
+		#15 inp=~inp;
+	end
+	
+	initial 
+	begin
+		T=0;
+		repeat(20)
+		#20 T=~T;
+	end
+		
+	initial 
+	begin
+		{J,K}=0;
+		repeat(20)
+		#15 {J,K}={J,K}+1;
+		#10 $finish;
+	end
+	
+
+endmodule
