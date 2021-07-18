@@ -6,8 +6,10 @@ Curricula allied scripts
 3. 4:2 Priority Encoder
 4. Flip Flops- D,T,JK
 5. Latches- SR,S'R',D
-6. Sequence Detector FSM (Mealey)
-7. Sequence Detector FSM (Moore)
+6. Ripple Counter: Mod 6 
+7. Sequence Detector FSM (Mealey)
+8. Sequence Detector FSM (Moore)
+9. Synchronous Counter: Mod 6
 
 Adders>>
 1. 0000 Half Adder
