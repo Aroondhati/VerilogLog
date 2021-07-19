@@ -1,0 +1,81 @@
+//1001 Overlapping
+module MealeySeqDetector(
+	input clock,
+	input reset,
+	input x,
+	output reg y
+    );
+
+reg [1:0] present_state, next_state;
+
+parameter S0=2'b00, S1=2'b01, S2=2'b10, S3=2'b11; 
+
+always@(posedge clock,negedge reset)
+	begin
+	if(reset==0)
+		present_state<=2'b00;
+	else
+	present_state<=next_state;
+	end
+
+always@(clock,present_state,x)
+	begin
+	case(present_state)
+	S0: begin next_state<=(x==1)?S1:S0;	end
+	S1: begin next_state<=(x==1)?S1:S2; end
+	S2: begin next_state<=(x==1)?S1:S3; end
+	S3: begin next_state<=(x==1)?S1:S0; end
+	endcase
+	end
+
+always@(present_state,x)
+	begin
+	case(present_state)
+	S0: y<=0;
+	S1: y<=0;
+	S2: y<=0;
+	S3: y<=(x==1)?1:0;
+	endcase
+	end
+endmodule
+
+module TestBench_MealeySeqDetector();
+	reg clock;
+	reg reset;
+	reg x;
+	wire y;
+	reg [13:0] seq;
+	reg [4:0] i;
+
+MealeySeqDetector  MSD (clock,reset,x,y);
+
+	initial 
+	begin
+		clock=0;
+		repeat(300)
+		#10 clock=~clock;
+		#10 $finish;
+	end
+	
+	initial 
+	begin
+		reset=1;
+		#2 reset=0;
+		#2 reset=1;
+	end
+	
+	initial 
+	begin
+		seq=14'b 1001_0011_0010_10;
+		x=0;
+		i=0;
+		#10 x=seq[13];
+		repeat(13)
+		begin
+		i=i+1;
+		#20 x=seq[13-i];
+		end
+		#10 $finish;
+	end
+	endmodule
+	
