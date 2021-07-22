@@ -1,0 +1,36 @@
+module RCM6(
+	input clock,
+	input reset,
+	output reg [2:0] Q
+    );
+	 
+	always@(posedge clock,posedge reset)
+		begin
+			if(Q==7|reset==1) Q<=0;
+			else Q<=Q+1;
+		end	
+endmodule
+
+//TestBench
+module TestBench_RCM6();
+	reg clock;
+	reg reset;
+	wire [2:0] Q;
+
+RCM6  rcm (clock,reset,Q);
+
+	initial 
+	begin
+		clock=0;
+		repeat(20)
+		#10 clock=~clock;
+		#10 $finish;
+	end
+	
+	initial 
+	begin
+		reset=0;
+		#2 reset=1;
+		#20 reset=0;
+	end
+endmodule
